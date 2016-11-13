@@ -28,6 +28,7 @@ gulp.task('place-assets', function() {
         areaEnd: '<!--SCRIPTS_END-->',
         publicFolder: '.tmp/public/'
     }))
+    // place css
     .pipe(yaLinker.makeStream({
         files: assets.css,
         fileTemplate: '<link rel="stylesheet" href="{{src}}?{{mtime}}">',
