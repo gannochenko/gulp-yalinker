@@ -11,10 +11,10 @@ let yaLinker = require('gulp-yalinker');
 
 let assets = {
     js: [
-        'js/dependencies/**/*.js'
+        '.tmp/public/js/dependencies/**/*.js'
     ],
     css: [
-        'styles/*.css'
+        '.tmp/public/styles/*.css'
     ]
 };
 
