@@ -1,10 +1,8 @@
-"use strict";
-
 let fs = require('fs');
 let util = require('util');
 let stream = require('stream');
-var glob = require('glob');
-var os = require('os');
+let glob = require('glob');
+let os = require('os');
 
 let _ = require('lodash');
 let gulpUtil = require('gulp-util');
@@ -66,7 +64,7 @@ class YALStream extends stream.Transform
     files = _.flattenDeep(files);
     files = files.map(function(file){
       file = file.toString().trim();
-      var not = false;
+      let not = false;
       if(file[0] === '!')
       {
         not = true;
@@ -84,9 +82,9 @@ class YALStream extends stream.Transform
 
   getAssetFiles(patternSet)
   {
-    var pResolve = null;
-    var pReject = null;
-    var p = new Promise(function(resolve, reject){
+    let pResolve = null;
+    let pReject = null;
+    let p = new Promise(function(resolve, reject){
       pResolve = resolve;
       pReject = reject;
     });
@@ -96,7 +94,7 @@ class YALStream extends stream.Transform
       this.files = [];
 
       patternSet.forEach(function(item){
-        var found = glob.sync(item.pattern, {});
+        let found = glob.sync(item.pattern, {});
         if(found && found.length)
         {
           this.files = _[item.not ? 'difference' : 'union'](this.files, found);
@@ -111,7 +109,7 @@ class YALStream extends stream.Transform
       });
 
       // now get mtime of each file
-      var statPromises = [];
+      let statPromises = [];
       this.files.forEach((item, i) => {
 
         (function(items, i, statPromises){
@@ -136,7 +134,7 @@ class YALStream extends stream.Transform
       });
 
       // get stats of all files
-      Promise.all(statPromises).then(function(results){
+      Promise.all(statPromises).then(function(){
         pResolve(this.files);
       }.bind(this));
     }
@@ -150,20 +148,14 @@ class YALStream extends stream.Transform
 
   processInputFile(file)
   {
-    var pResolve = null;
-    var pReject = null;
-    var p = new Promise(function(resolve, reject){
+    let pResolve = null;
+    let pReject = null;
+    let p = new Promise(function(resolve, reject){
       pResolve = resolve;
       pReject = reject;
     });
 
-    if(!this.enabled)
-    {
-      pResolve(file);
-      return p;
-    }
-
-    var async = false;
+    let doJob = false;
 
     if(this.enabled && file.contents instanceof Buffer)
     {
@@ -175,7 +167,7 @@ class YALStream extends stream.Transform
 
       if(start >= 0 && end >= 0 && start < end)
       {
-        async = true;
+        doJob = true;
         this.getAssetFiles(this.options.files).then(function(files){
 
           if(files.length)
@@ -191,17 +183,12 @@ class YALStream extends stream.Transform
             }.bind(this));
 
             let padding = this.getStartPadding(contents, start);
-            var newContent = contents.substr(0, start + this.options.areaStart.length) + os.EOL + padding +
+            let newContent = contents.substr(0, start + this.options.areaStart.length) + os.EOL + padding +
               html.join(os.EOL + padding) +
               os.EOL + padding +
               contents.substr(end);
 
-            //_print_r(newContent);
-
             file.contents = new Buffer(newContent);
-
-            //newPage = page.substr(0, start + options.startTag.length) + "\n" + padding + scripts.join("\n" + padding) + "\n" + padding + page.substr(end);
-
             pResolve(file);
           }
 
@@ -209,7 +196,7 @@ class YALStream extends stream.Transform
       }
     }
 
-    if(!async)
+    if(!doJob)
     {
       pResolve(file);
     }
@@ -224,9 +211,9 @@ class YALStream extends stream.Transform
       return '';
     }
 
-    var char = null;
-    var padding = '';
-    for(var k = i - 1; k >= 0; k--)
+    let char = null;
+    let padding = '';
+    for(let k = i - 1; k >= 0; k--)
     {
       char = contents.charCodeAt(k);
       if(char == 0x0A || char == 0x0D)
@@ -247,17 +234,17 @@ class YALStream extends stream.Transform
       this.processInputFile(chunk).then(function(chunk){
 
         this.push(chunk);
-        return cb();
+        cb();
 
       }.bind(this));
     }
     else
     {
-      this.emit('error', new gulpUtil.PluginError('gulp-yamap', 'Bad input file'));
+      this.emit('error', new gulpUtil.PluginError('gulp-yalinker', 'Bad input file'));
 
       if(!chunk.isNull())
       {
-        return callback();
+        return cb();
       }
     }
   }
