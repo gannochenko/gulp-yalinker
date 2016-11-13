@@ -1,6 +1,6 @@
 {
   "name": "gulp-yalinker",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Yet another linker for gulp",
   "main": "index.js",
   "scripts": {
