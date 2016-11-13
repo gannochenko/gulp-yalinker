@@ -19,7 +19,7 @@ let assets = {
 };
 
 gulp.task('place-assets', function() {
-    return gulp.src(['templates/*.html', 'templates/*.ejs])
+    return gulp.src(['templates/*.html', 'templates/*.ejs'])
     // place js
     .pipe(yaLinker.makeStream({
         files: assets.js,
