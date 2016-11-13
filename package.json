@@ -1,0 +1,17 @@
+{
+  "name": "gulp-yalinker",
+  "version": "1.0.0",
+  "description": "Yet another linker for gulp",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "gulp",
+    "link",
+    "asset",
+    "linker"
+  ],
+  "author": "Sergey Gannochenko <gannochenko.sv@gmail.com> (https://github.com/awesome1888)",
+  "license": "MIT"
+}
