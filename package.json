@@ -13,5 +13,14 @@
     "linker"
   ],
   "author": "Sergey Gannochenko <gannochenko.sv@gmail.com> (https://github.com/awesome1888)",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/awesome1888/gulp-yalinker"
+  },
+  "dependencies": {
+    "glob": "^7.1.1",
+    "gulp-util": "^3.0.7",
+    "lodash": "^4.16.6"
+  }
 }
