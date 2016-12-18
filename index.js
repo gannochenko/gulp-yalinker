@@ -1,3 +1,5 @@
+"use strict";
+
 let fs = require('fs');
 let util = require('util');
 let stream = require('stream');
